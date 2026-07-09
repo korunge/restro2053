@@ -13,7 +13,6 @@ import {
   LogOut,
   Eye,
   LayoutDashboard,
-  Settings,
   Facebook,
   Instagram,
   ShieldCheck,
@@ -53,6 +52,14 @@ interface MenuCategory {
   emoji: string;
   items: MenuItem[];
 }
+interface Testimonial {
+  id: string;
+  author: string;
+  rating: number;
+  text: string;
+  time: string;
+  profilePhoto?: string;
+}
 interface SiteContent {
   hero: { tagline: string; welcomeMessage: string; openTime: string; closeTime: string };
   about: { story: string; artistQuote: string; artistNote: string };
@@ -78,64 +85,216 @@ const DEFAULT_CONTENT: SiteContent = {
   },
   menu: [
     {
-      id: "beverages",
-      name: "Beverages",
+      id: "chowmein",
+      name: "Chowmein",
+      emoji: "🍜",
+      items: [
+        { id: "c1", name: "Chicken Chowmein", price: 180, description: "Stir-fried noodles with chicken and vegetables" },
+        { id: "c2", name: "Vegetable Chowmein", price: 150, description: "Stir-fried noodles with mixed vegetables" },
+        { id: "c3", name: "Sadheko Chowmein", price: 170, description: "Spicy marinated chowmein with tangy flavors" },
+        { id: "c4", name: "Mix Chowmein", price: 220, description: "Stir-fried noodles with chicken and vegetables" },
+      ],
+    },
+    {
+      id: "keema-noodle",
+      name: "Keema Noodle",
+      emoji: "🍝",
+      items: [
+        { id: "k1", name: "Chicken Keema Noodles", price: 200, description: "Noodles with spiced minced chicken" },
+        { id: "k2", name: "Buff Keema Noodles", price: 220, description: "Noodles with spiced minced buffalo meat" },
+      ],
+    },
+    {
+      id: "laphing",
+      name: "Laphing",
+      emoji: "🥢",
+      items: [
+        { id: "l1", name: "Dry Laphing", price: 70, description: "Cold noodle dish with dry spices" },
+        { id: "l2", name: "Jhol Laphing", price: 90, description: "Cold noodle dish with spicy soup" },
+      ],
+    },
+    {
+      id: "momos",
+      name: "Momos",
+      emoji: "🥟",
+      items: [
+        { id: "m1", name: "Chicken Momo (Steam)", price: 180, description: "Steamed dumplings stuffed with spiced minced chicken", popular: true },
+        { id: "m2", name: "Chicken Momo (Jhol)", price: 200, description: "Steamed dumplings served with spicy dipping sauce" },
+        { id: "m3", name: "Chicken Momo (Chilli)", price: 230, description: "Dumplings in spicy chilli sauce" },
+        { id: "m4", name: "Chicken Momo (Kothey)", price: 210, description: "Pan-fried dumplings with spiced chicken" },
+        { id: "m5", name: "Vegetable Momo (Steam)", price: 150, description: "Steamed dumplings stuffed with seasonal vegetables" },
+        { id: "m6", name: "Vegetable Momo (Jhol)", price: 170, description: "Steamed dumplings served with spicy dipping sauce" },
+        { id: "m7", name: "Vegetable Momo (Chilli)", price: 200, description: "Dumplings in spicy chilli sauce" },
+        { id: "m8", name: "Vegetable Momo (Kothey)", price: 180, description: "Pan-fried dumplings with vegetables" },
+      ],
+    },
+    {
+      id: "sadheko",
+      name: "Sadheko",
+      emoji: "�️",
+      items: [
+        { id: "s1", name: "Chicken Sadheko", price: 220, description: "Spicy marinated chicken with tangy flavors" },
+        { id: "s2", name: "Peanuts Sadheko", price: 150, description: "Spicy marinated peanuts with herbs" },
+        { id: "s3", name: "Sweetcorn Sadheko", price: 140, description: "Spicy marinated sweet corn" },
+        { id: "s4", name: "Bhatmas Sadheko", price: 150, description: "Spicy marinated soybeans" },
+        { id: "s5", name: "Aloo Sadheko", price: 150, description: "Spicy marinated potatoes" },
+        { id: "s6", name: "Wai-Wai Sadheko", price: 125, description: "Spicy marinated instant noodles" },
+      ],
+    },
+    {
+      id: "chatpat",
+      name: "Chatpat",
+      emoji: "🥗",
+      items: [
+        { id: "ch1", name: "Plain Chatpat", price: 100, description: "Spicy tangy snack mix" },
+        { id: "ch2", name: "Gilo Chatpat", price: 120, description: "Spicy chatpat with extra heat" },
+        { id: "ch3", name: "Chicken Chatpat", price: 150, description: "Spicy chatpat with chicken" },
+      ],
+    },
+    {
+      id: "fried-rice",
+      name: "Fried Rice",
+      emoji: "�",
+      items: [
+        { id: "fr1", name: "Chicken Fried Rice", price: 220, description: "Fried rice with chicken and vegetables" },
+        { id: "fr2", name: "Veg Fried Rice", price: 170, description: "Fried rice with mixed vegetables" },
+        { id: "fr3", name: "Mix Fried Rice", price: 260, description: "Fried rice with chicken and vegetables" },
+      ],
+    },
+    {
+      id: "sandwich",
+      name: "Sandwich",
+      emoji: "🥪",
+      items: [
+        { id: "sw1", name: "Vegetable Sandwich", price: 130, description: "Grilled sandwich with vegetables" },
+        { id: "sw2", name: "Chicken Sandwich", price: 190, description: "Grilled sandwich with chicken" },
+        { id: "sw3", name: "Extra Cheese", price: 80, description: "Add extra cheese to any sandwich" },
+      ],
+    },
+    {
+      id: "wraps",
+      name: "Wraps",
+      emoji: "🌯",
+      items: [
+        { id: "w1", name: "Egg Chicken Wrap", price: 240, description: "Wrap with egg and chicken" },
+        { id: "w2", name: "Chicken Wrap", price: 200, description: "Wrap with spiced chicken" },
+      ],
+    },
+    {
+      id: "burger",
+      name: "Burger",
+      emoji: "🍔",
+      items: [
+        { id: "bu1", name: "Chicken Burger", price: 250, description: "Grilled chicken burger with vegetables" },
+        { id: "bu2", name: "Vegetable Burger", price: 200, description: "Vegetable patty burger with fresh veggies" },
+        { id: "bu3", name: "Extra Cheese", price: 80, description: "Add extra cheese to any burger" },
+      ],
+    },
+    {
+      id: "pizzas",
+      name: "Pizzas",
+      emoji: "🍕",
+      items: [
+        { id: "p1", name: "Chicken Pizza (Small)", price: 500, description: "Small pizza with chicken and cheese" },
+        { id: "p2", name: "Chicken Pizza (Large)", price: 650, description: "Large pizza with chicken and cheese" },
+        { id: "p3", name: "Vegetable Pizza (Small)", price: 450, description: "Small pizza with mixed vegetables" },
+        { id: "p4", name: "Vegetable Pizza (Large)", price: 550, description: "Large pizza with mixed vegetables" },
+        { id: "p5", name: "Mix Pizza (Small)", price: 600, description: "Small pizza with chicken and vegetables" },
+        { id: "p6", name: "Mix Pizza (Large)", price: 750, description: "Large pizza with chicken and vegetables" },
+      ],
+    },
+    {
+      id: "veg-snacks",
+      name: "Vegetable Snacks",
+      emoji: "🥔",
+      items: [
+        { id: "vs1", name: "French Fries", price: 200, description: "Golden crispy fries" },
+        { id: "vs2", name: "Chips Chilli", price: 230, description: "Spicy potato chips" },
+        { id: "vs3", name: "Paneer Pakauda", price: 280, description: "Fried paneer fritters with spices" },
+        { id: "vs4", name: "Sweet Corn Fry", price: 200, description: "Fried sweet corn with spices" },
+        { id: "vs5", name: "Mix Veg Pakauda", price: 180, description: "Mixed vegetable fritters" },
+        { id: "vs6", name: "Mushroom Chilli", price: 220, description: "Spicy mushroom dish" },
+        { id: "vs7", name: "Spicy Mustang Aloo", price: 220, description: "Spicy potatoes with Mustang herbs" },
+      ],
+    },
+    {
+      id: "non-veg-snacks",
+      name: "Non-Vegetable Snacks",
+      emoji: "�",
+      items: [
+        { id: "ns1", name: "Drumstick", price: 300, description: "Fried chicken drumsticks" },
+        { id: "ns2", name: "Buffalo Wings", price: 330, description: "Spicy buffalo wings" },
+        { id: "ns3", name: "Chicken Chilli", price: 250, description: "Spicy chicken with bell peppers" },
+        { id: "ns4", name: "Sausage Fry", price: 200, description: "Fried sausages with spices" },
+        { id: "ns5", name: "Sausage Chilli", price: 250, description: "Spicy sausages with peppers" },
+        { id: "ns6", name: "Sesame Chicken Roast", price: 230, description: "Roasted chicken with sesame seeds" },
+        { id: "ns7", name: "Chicken Leg Piece", price: 350, description: "Fried chicken leg piece" },
+      ],
+    },
+    {
+      id: "khaja-set",
+      name: "Khaja Set",
+      emoji: "🍱",
+      items: [
+        { id: "ks1", name: "Chicken Khaja Set", price: 300, description: "Snack platter with chicken items" },
+        { id: "ks2", name: "Veg Khaja Set", price: 250, description: "Snack platter with vegetarian items" },
+        { id: "ks3", name: "Pork Khaja Set", price: 330, description: "Snack platter with pork items" },
+      ],
+    },
+    {
+      id: "salads",
+      name: "Salads",
+      emoji: "🥗",
+      items: [
+        { id: "sa1", name: "Creamy Fruit Salad", price: 280, description: "Fresh fruits with creamy dressing" },
+        { id: "sa2", name: "Nepali Salad", price: 200, description: "Traditional Nepali style salad" },
+        { id: "sa3", name: "Chicken Caesar Salad", price: 250, description: "Caesar salad with chicken" },
+      ],
+    },
+    {
+      id: "hot-beverage",
+      name: "Hot Beverage",
       emoji: "☕",
       items: [
-        { id: "b1", name: "Fresh Lime Soda", price: 3.0, description: "Zesty freshly squeezed lime with sparkling water and a pinch of black salt" },
-        { id: "b2", name: "Coffee", price: 2.5, description: "Rich aromatic Nepali blend, served hot or iced" },
-        { id: "b3", name: "Masala Tea", price: 2.0, description: "Spiced milk tea with cardamom, ginger & cinnamon" },
-        { id: "b4", name: "Mango Lassi", price: 3.5, description: "Creamy yogurt smoothie blended with sweet Himalayan mango", popular: true },
+        { id: "hb1", name: "Black Tea", price: 35, description: "Pure black tea" },
+        { id: "hb2", name: "Milk Tea", price: 50, description: "Tea with milk" },
+        { id: "hb3", name: "Milk Masala Tea", price: 80, description: "Spiced tea with milk" },
+        { id: "hb4", name: "Hot Lemon", price: 80, description: "Hot lemon drink" },
+        { id: "hb5", name: "Hot Lemon with Ginger & Honey", price: 125, description: "Hot lemon with ginger and honey" },
+        { id: "hb6", name: "Hot Chocolate", price: 150, description: "Rich hot chocolate" },
+        { id: "hb7", name: "Black Coffee with Froth (Nescafe)", price: 120, description: "Black coffee with froth" },
+        { id: "hb8", name: "Milk Coffee with Froth (Nescafe)", price: 150, description: "Coffee with milk and froth" },
       ],
     },
     {
-      id: "breakfast",
-      name: "Breakfast",
-      emoji: "🍳",
+      id: "cold-beverage",
+      name: "Cold Beverage",
+      emoji: "🧊",
       items: [
-        { id: "br1", name: "Nepali Bread Set", price: 5.0, description: "Sel roti served with butter, local honey & seasonal fruit" },
-        { id: "br2", name: "Aloo Paratha", price: 4.5, description: "Spiced potato flatbread served with yogurt & pickle" },
-        { id: "br3", name: "Eggs Benedict", price: 7.0, description: "Poached eggs on toasted local bread with house hollandaise" },
+        { id: "cb1", name: "Milkshake (Strawberry / Vanilla / Chocolate)", price: 180, description: "Creamy milkshake in various flavors" },
+        { id: "cb2", name: "Lassi (Plain / Banana)", price: 150, description: "Traditional yogurt drink" },
+        { id: "cb3", name: "Ice Americano", price: 160, description: "Iced Americano coffee" },
+        { id: "cb4", name: "Ice Mocha", price: 200, description: "Iced mocha coffee" },
+        { id: "cb5", name: "Ice Tea (Lemon / Peach)", price: 170, description: "Iced tea in various flavors" },
+        { id: "cb6", name: "Smoothie (Strawberry / Vanilla / Banana / Blueberry)", price: 250, description: "Fresh fruit smoothie" },
       ],
     },
     {
-      id: "main-course",
-      name: "Main Course",
-      emoji: "🍛",
+      id: "refreshments",
+      name: "Refreshments",
+      emoji: "🍹",
       items: [
-        { id: "m1", name: "Momo (Chicken)", price: 5.0, description: "Steamed dumplings stuffed with spiced minced chicken, served with achar", popular: true },
-        { id: "m2", name: "Momo (Veg)", price: 5.0, description: "Steamed dumplings stuffed with seasonal vegetables and tofu" },
-        { id: "m3", name: "Thakali Set", price: 8.0, description: "Traditional dal, bhat, tarkari, gundruk, papad & house pickles", popular: true },
-        { id: "m4", name: "Chowmein", price: 6.0, description: "Stir-fried noodles with vegetables and your choice of protein" },
-        { id: "m5", name: "Dal Bhat", price: 7.0, description: "Hearty lentil soup with steamed rice, seasonal vegetables & pickle" },
-      ],
-    },
-    {
-      id: "desserts",
-      name: "Desserts",
-      emoji: "🍮",
-      items: [
-        { id: "d1", name: "Sel Roti with Honey", price: 3.0, description: "Traditional ring-shaped sweet rice bread drizzled with wild honey" },
-        { id: "d2", name: "Kheer", price: 3.5, description: "Creamy rice pudding with cardamom, saffron & rose water" },
-        { id: "d3", name: "Ice Cream", price: 4.0, description: "Three scoops — choose from mango, vanilla or chocolate" },
-      ],
-    },
-    {
-      id: "bar-snacks",
-      name: "Bar & Snacks",
-      emoji: "🍟",
-      items: [
-        { id: "s1", name: "Chicken Wings", price: 8.0, description: "Crispy wings tossed in house spice blend, served with dipping sauce" },
-        { id: "s2", name: "Samosa (4 pcs)", price: 4.0, description: "Crispy pastry pockets filled with spiced potato & green peas" },
-        { id: "s3", name: "French Fries", price: 5.0, description: "Golden crispy fries seasoned with house spice & served with aioli" },
-        { id: "s4", name: "Paneer Tikka", price: 7.0, description: "Marinated cottage cheese grilled to perfection, served with mint chutney", popular: true },
+        { id: "r1", name: "Mojito (Mint / Watermelon / Virgin)", price: 200, description: "Refreshing mojito in various flavors" },
+        { id: "r2", name: "Mint Lemonade", price: 180, description: "Fresh mint lemonade" },
+        { id: "r3", name: "Lemon Soda", price: 100, description: "Classic lemon soda" },
+        { id: "r4", name: "Grape Lemonade", price: 250, description: "Grape flavored lemonade" },
       ],
     },
   ],
   location: {
     address: "Kathmandu, Nepal",
-    phone: "+977 98XXXXXXXX",
-    email: "hello@restro53.com",
+    phone: "+977-9768588331",
+    email: "restro2053@gmail.com",
   },
   social: {
     facebook: "https://facebook.com/restro53",
@@ -215,7 +374,7 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ─── HEADER ───────────────────────────────────────────────────────────────────
-function Header({ onAdminClick }: { onAdminClick: () => void }) {
+function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -696,6 +855,198 @@ function Location({
   );
 }
 
+// ─── TESTIMONIALS ───────────────────────────────────────────────────────────────
+function Testimonials() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const PLACE_ID = "ChIJWU-UIgAZ6zkRY78nHT9mAV8";
+  const API_KEY = ""; // Add your Google Places API key here
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        if (API_KEY) {
+          const response = await fetch(
+            `https://maps.googleapis.com/maps/api/place/details/json?place_id=${PLACE_ID}&fields=reviews&key=${API_KEY}`
+          );
+          const data = await response.json();
+          
+          if (data.result && data.result.reviews) {
+            const formattedReviews: Testimonial[] = data.result.reviews.map((review: any) => ({
+              id: review.time.toString(),
+              author: review.author_name,
+              rating: review.rating,
+              text: review.text,
+              time: review.relative_time_description,
+              profilePhoto: review.profile_photo_url,
+            }));
+            setTestimonials(formattedReviews);
+          }
+        } else {
+          // Fallback testimonials when no API key is provided
+          const fallbackTestimonials: Testimonial[] = [
+            {
+              id: "1",
+              author: "Aarav Sharma",
+              rating: 5,
+              text: "Amazing food and great ambiance! The momos are the best I've had in Kathmandu. Will definitely come back.",
+              time: "2 weeks ago",
+            },
+            {
+              id: "2", 
+              author: "Priya Thapa",
+              rating: 5,
+              text: "Love the local art and the cozy atmosphere. The staff is super friendly and the food is always fresh.",
+              time: "1 month ago",
+            },
+            {
+              id: "3",
+              author: "Rajesh Gurung",
+              rating: 4,
+              text: "Great place to hang out with friends. The chowmein and chicken chilli are must-try dishes!",
+              time: "3 weeks ago",
+            },
+            {
+              id: "4",
+              author: "Sita Magar",
+              rating: 5,
+              text: "Perfect spot for family dinners. The thakali set reminds me of home cooking. Highly recommended!",
+              time: "1 week ago",
+            },
+            {
+              id: "5",
+              author: "Bikash Rai",
+              rating: 5,
+              text: "Best restaurant in Tokha! The prices are reasonable and the quality is top-notch. Love the art on the walls.",
+              time: "2 days ago",
+            },
+          ];
+          // Randomly select 3 testimonials
+          const shuffled = fallbackTestimonials.sort(() => 0.5 - Math.random());
+          setTestimonials(shuffled.slice(0, 3));
+        }
+      } catch (err) {
+        setError("Failed to load reviews");
+        console.error("Error fetching reviews:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }).map((_, i) => (
+      <Star
+        key={i}
+        className={`w-4 h-4 ${i < rating ? "fill-[#e8b84b] text-[#e8b84b]" : "text-[#e8b84b]/30"}`}
+      />
+    ));
+  };
+
+  return (
+    <section id="testimonials" className="py-24 bg-[#1a1a1a]">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-8 bg-[#e8b84b]" />
+            <span
+              className="text-[#e8b84b] text-xs uppercase tracking-[0.2em]"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              Customer Love
+            </span>
+            <div className="h-px w-8 bg-[#e8b84b]" />
+          </div>
+          <h2
+            className="text-4xl md:text-5xl font-bold text-[#f0e6d3]"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            What People Say
+          </h2>
+        </div>
+
+        {loading ? (
+          <div className="text-center text-[#f0e6d3]/60">Loading reviews...</div>
+        ) : error ? (
+          <div className="text-center text-[#f0e6d3]/60">{error}</div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-6">
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="bg-[#222] border border-[#e8b84b]/10 rounded-sm p-6 hover:border-[#e8b84b]/30 transition-all"
+              >
+                {/* Rating */}
+                <div className="flex gap-1 mb-4">
+                  {renderStars(testimonial.rating)}
+                </div>
+
+                {/* Review text */}
+                <p
+                  className="text-[#f0e6d3]/75 text-sm leading-relaxed mb-6"
+                  style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}
+                >
+                  "{testimonial.text}"
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-3">
+                  {testimonial.profilePhoto ? (
+                    <img
+                      src={testimonial.profilePhoto}
+                      alt={testimonial.author}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-[#e8b84b]/20 flex items-center justify-center">
+                      <span className="text-[#e8b84b] font-semibold text-sm">
+                        {testimonial.author.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                  <div>
+                    <p
+                      className="text-[#f0e6d3] font-semibold text-sm"
+                      style={{ fontFamily: "'Poppins', sans-serif" }}
+                    >
+                      {testimonial.author}
+                    </p>
+                    <p
+                      className="text-[#f0e6d3]/40 text-xs"
+                      style={{ fontFamily: "'Poppins', sans-serif" }}
+                    >
+                      {testimonial.time}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Google Reviews Link */}
+        <div className="text-center mt-10">
+          <a
+            href={`https://search.google.com/local/writereview?placeid=${PLACE_ID}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[#e8b84b] hover:text-[#f0e6d3] transition-colors text-sm font-medium"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
+          >
+            <Star className="w-4 h-4" />
+            Write a Review on Google
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── FOLLOW US ────────────────────────────────────────────────────────────────
 function FollowUs({ content }: { content: SiteContent["social"] }) {
   const socials = [
@@ -816,10 +1167,11 @@ function PublicSite({
 }) {
   return (
     <div className="min-h-screen bg-[#1a1a1a]">
-      <Header onAdminClick={onAdminClick} />
+      <Header />
       <Hero content={content.hero} />
       <About content={content.about} />
       <MenuSection content={content.menu} />
+      <Testimonials />
       <Location content={content.location} hero={content.hero} />
       <FollowUs content={content.social} />
       <Footer onAdminClick={onAdminClick} />
@@ -1113,7 +1465,6 @@ function MenuEditor({
   const [categories, setCategories] = useState<MenuCategory[]>(data);
   const [activeCat, setActiveCat] = useState(data[0]?.id ?? "");
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
-  const [editingCatName, setEditingCatName] = useState<string | null>(null);
   const { toast, show } = useToast();
 
   const active = categories.find((c) => c.id === activeCat);
