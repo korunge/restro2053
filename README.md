@@ -1,7 +1,7 @@
 
   # Business website with admin panel
 
-  This is a code bundle for Business website with admin panel. The original project is available at https://www.figma.com/design/ilEojh1GSktPWiTtJSYjHF/Business-website-with-admin-panel.
+ This is a website specially created for Restro 53 to authenticate the free hosting capability of GitHub.
 
   ## Running the code
 
