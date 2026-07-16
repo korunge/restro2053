@@ -131,7 +131,7 @@ const DEFAULT_CONTENT: SiteContent = {
     {
       id: "sadheko",
       name: "Sadheko",
-      emoji: "�️",
+      emoji: "🌶️",
       items: [
         { id: "s1", name: "Chicken Sadheko", price: 220, description: "Spicy marinated chicken with tangy flavors" },
         { id: "s2", name: "Peanuts Sadheko", price: 150, description: "Spicy marinated peanuts with herbs" },
@@ -154,7 +154,7 @@ const DEFAULT_CONTENT: SiteContent = {
     {
       id: "fried-rice",
       name: "Fried Rice",
-      emoji: "�",
+      emoji: "🍚",
       items: [
         { id: "fr1", name: "Chicken Fried Rice", price: 220, description: "Fried rice with chicken and vegetables" },
         { id: "fr2", name: "Veg Fried Rice", price: 170, description: "Fried rice with mixed vegetables" },
@@ -220,7 +220,7 @@ const DEFAULT_CONTENT: SiteContent = {
     {
       id: "non-veg-snacks",
       name: "Non-Vegetable Snacks",
-      emoji: "�",
+      emoji: "🍗",
       items: [
         { id: "ns1", name: "Drumstick", price: 300, description: "Fried chicken drumsticks" },
         { id: "ns2", name: "Buffalo Wings", price: 330, description: "Spicy buffalo wings" },
@@ -924,7 +924,11 @@ function Testimonials() {
             },
           ];
           // Randomly select 3 testimonials
-          const shuffled = fallbackTestimonials.sort(() => 0.5 - Math.random());
+          const shuffled = [...fallbackTestimonials];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
           setTestimonials(shuffled.slice(0, 3));
         }
       } catch (err) {
